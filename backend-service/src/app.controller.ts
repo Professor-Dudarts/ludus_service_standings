@@ -9,5 +9,9 @@ export class AppController {
   getHello(): string {
     return this.appService.getHello();
   }
-
+  
+  @Get('/gui')
+  getGui(@Query('parametro') parametro): string {
+    return this.appService.getGui(parametro);
+  }
 }

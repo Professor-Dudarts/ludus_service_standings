@@ -14,4 +14,8 @@ export class AppController {
   getGui(@Query('parametro') parametro): string {
     return this.appService.getGui(parametro);
   }
+  @Get("/thayla")
+  getThayla() {
+    return this.appService.getThayla();
+  }
 }

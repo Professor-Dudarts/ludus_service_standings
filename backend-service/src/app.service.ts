@@ -15,4 +15,7 @@ export class AppService {
               '{ alert("'+texto+'");}'+
             '</script>';
   }
+  getThayla(){
+    return {nome:"Thayla"}
+  }
 }

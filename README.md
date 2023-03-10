@@ -2,7 +2,7 @@
 Serviço de classificação de campeonato de futebol.
 
 ### O que nosso serviço fornecerá?
-- 
+- Ao receber informações/dados de jogos, o serviço disponibilizará informações de tabela de classificação (tipo de pontos corridos e de fases de grupos) contendo: Pontos, Partidas Jogadas, Vitórias, Empates, DERrotas, Gols Marcados, Gols Contra e Saldo de Gol; onde 
 
 ### Equipe
 - Gestor: [Guilherme Machado](https://www.linkedin.com/in/guilhermedecarvalhomachado/)
@@ -15,7 +15,7 @@ Serviço de classificação de campeonato de futebol.
   
 ### Tecnologias utilizadas
 - API
-  - Nest.JS
+  - NestJS
 - Especificação API
   - SWAGGER
 - Banco de dados

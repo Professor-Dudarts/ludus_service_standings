@@ -1,14 +1,17 @@
 name: Auto Assign
 on:
-  issues:
-    types: [opened]
   pull_request:
-    types: [opened]
+    types: [opened, reopened]
+  issues:
+    types: [opened, reopened]
+
 jobs:
-  run:
+  assign-pr-ao-autor:
     runs-on: ubuntu-latest
     steps:
-      - uses: wow-actions/auto-assign@v1
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CONFIG_FILE: .github/auto-assign.yml
+      - name: Atribuir PR eou Issue ao autor
+        run: |
+          author=`jq -r '.pull_request.user.login' $GITHUB_EVENT_PATH`
+          token=$GITHUB_TOKEN
+          number=`jq -r '.pull_request.number' $GITHUB_EVENT_PATH`
+          curl -s -H "Authorization: token $token" -X POST -d "{\"assignees\":[\"$author\"]}" "https://api.github.com/repos/$GITHUB_REPOSITORY/issues/$number/assignees"

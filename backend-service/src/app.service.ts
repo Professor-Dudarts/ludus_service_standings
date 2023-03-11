@@ -8,6 +8,7 @@ export class AppService {
   getGui(parametro:string): string {
     var texto = parametro;
     return '<div style="color: green">'+
+              '<p>Olá! Está página é do Gui</p>'+
               '<input type="button" onClick="alertaGui()" value="click here"/>'+
             '</div>'+
             '<script>'+

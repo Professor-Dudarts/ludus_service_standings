@@ -1,1 +1,0 @@
-teste auto-assign.yml

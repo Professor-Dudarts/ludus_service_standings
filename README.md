@@ -30,7 +30,8 @@ Serviço de classificação de campeonato de futebol.
 - Peer Code Review
 - Após fazer Pull Request, acrescentar 2 reviewers:
     - QA 
-    - Se o assunto for NestJS:
-      - Higor Bueno
+      - Pedro Olegário (@PPedrosouza)
+    - PR de Angular e NestJS:
+      - Higor Bueno (@higorbuueno)
     - Se não, pode adicionar outro dev
 - Ao liberar o staging, apresentamos o protótipo ao PO

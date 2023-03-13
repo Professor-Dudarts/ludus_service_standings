@@ -9,17 +9,19 @@ Serviço de classificação de campeonato de futebol.
 - QA: [Pedro Olegário](https://www.linkedin.com/in/pedro-olegario/)
 - DEV's: 
     - [Higor Bueno](https://www.linkedin.com/in/higor-bueno-797b401a7/)
-    - [Ruben Handerson](https://github.com/rubenhanderson)
+    - [Ruben Handerson](https://www.linkedin.com/in/ruben-ribeiro-08566416a/)
     - [Kayan Guerra](https://www.linkedin.com/in/kayan-guerra-22266598/)
     - [Thayla Furlanetto](https://www.linkedin.com/in/thayla-furlanetto-60445121a/)
   
 ### Tecnologias utilizadas
-- API
+- Front-end
+  - Angular
+- Back-end
   - NestJS
 - Especificação API
-  - SWAGGER
+  - Swagger
 - Banco de dados
-  - MongoDB
+  - PostgreSQL
 - Metodologia Ágil
   - SCRUM
 

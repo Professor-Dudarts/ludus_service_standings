@@ -1,4 +1,4 @@
-export class CreateCampeonatoDto {
+export class CampeonatoDto {
     nomeCampeonato: String;
     dataInicio: Date;
     dataFim: Date;

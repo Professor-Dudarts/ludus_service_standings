@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { CreateCampeonatoDto } from './dto/create-campeonato.dto';
-import { UpdateCampeonatoDto } from './dto/update-campeonato.dto';
+import { CampeonatoDto } from './dto/campeonato.dto';
 
 @Injectable()
 export class CampeonatoService {
-  create(createCampeonatoDto: CreateCampeonatoDto) {
+  create(CampeonatoDto: CampeonatoDto) {
     return 'This action adds a new campeonato';
   }
 
@@ -16,7 +15,7 @@ export class CampeonatoService {
     return `This action returns a #${id} campeonato`;
   }
 
-  update(id: number, updateCampeonatoDto: UpdateCampeonatoDto) {
+  update(id: number, campeonatoDto: CampeonatoDto) {
     return `This action updates a #${id} campeonato`;
   }
 

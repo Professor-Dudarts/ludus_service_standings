@@ -1,7 +1,7 @@
 export class Campeonato {
     id: Number;
     nomeCampeonato: String;
-    dataInicio: Date;
-    dataFim: Date;
+    dataInicio: String;
+    dataFim: String;
     emAndamento: Boolean;
 }

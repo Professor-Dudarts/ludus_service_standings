@@ -1,6 +1,6 @@
 export class CampeonatoDto {
     nomeCampeonato: String;
-    dataInicio: Date;
-    dataFim: Date;
+    dataInicio: String;
+    dataFim: String;
     emAndamento: Boolean;
 }

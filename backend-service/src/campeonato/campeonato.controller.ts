@@ -1,15 +1,14 @@
-import { Controller, Get, Post, Body, Param, Delete, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Param, Delete } from '@nestjs/common';
 import { CampeonatoService } from './campeonato.service';
-import { CreateCampeonatoDto } from './dto/create-campeonato.dto';
-import { UpdateCampeonatoDto } from './dto/update-campeonato.dto';
+import { CampeonatoDto } from './dto/campeonato.dto';
 
 @Controller('campeonato')
 export class CampeonatoController {
-  constructor(private readonly campeonatoService: CampeonatoService) { }
+  constructor(private readonly campeonatoService: CampeonatoService) {}
 
   @Post()
-  create(@Body() createCampeonatoDto: CreateCampeonatoDto) {
-    return this.campeonatoService.create(createCampeonatoDto);
+  create(@Body() CampeonatoDto: CampeonatoDto) {
+    return this.campeonatoService.create(CampeonatoDto);
   }
 
   @Get()
@@ -23,8 +22,8 @@ export class CampeonatoController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateCampeonatoDto: UpdateCampeonatoDto) {
-    return this.campeonatoService.update(+id, updateCampeonatoDto);
+  update(@Param('id') id: string, @Body() CampeonatoDto: CampeonatoDto) {
+    return this.campeonatoService.update(+id, CampeonatoDto);
   }
 
   @Delete(':id')

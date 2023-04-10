@@ -4,6 +4,7 @@ import { CampeonatoController } from './campeonato.controller';
 
 @Module({
   controllers: [CampeonatoController],
-  providers: [CampeonatoService]
+  providers: [CampeonatoService],
+  exports: [CampeonatoService]
 })
 export class CampeonatoModule {}

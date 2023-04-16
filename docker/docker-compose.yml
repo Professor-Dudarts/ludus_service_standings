@@ -15,7 +15,7 @@ services:
     image: postgres
     environment:
       POSTGRES_DB: 'standings-postgres'
-      POSTGRES_USER: standings'
+      POSTGRES_USER: 'standings'
       POSTGRES_PASSWORD: 'h44AkV9O@gRy'
     ports:
       - '5432:5432'

@@ -4,4 +4,5 @@ export class Campeonato {
     dataInicio: String;
     dataFim: String;
     emAndamento: Boolean;
+    participantes: any[];
 }

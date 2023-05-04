@@ -3,4 +3,5 @@ export class CampeonatoDto {
     dataInicio: String;
     dataFim: String;
     emAndamento: Boolean;
+    campeonato: any[];
 }

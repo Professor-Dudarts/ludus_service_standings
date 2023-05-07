@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Body, Put, Param, Delete } from '@nestjs/common';
 import { CampeonatoService } from './campeonato.service';
 import { CampeonatoDto } from './dto/campeonato.dto';
+import { Campeonato } from './entities/campeonato.entity';
 
 @Controller('campeonatos')
 export class CampeonatoController {
@@ -22,7 +23,7 @@ export class CampeonatoController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() CampeonatoDto: CampeonatoDto) {
+  update(@Param('id') id: string, @Body() CampeonatoDto: Campeonato) {
     return this.campeonatoService.update(+id, CampeonatoDto);
   }
 

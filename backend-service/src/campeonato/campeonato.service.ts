@@ -1,7 +1,7 @@
 import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { CampeonatoDto } from './dto/campeonato.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Campeonato } from './db/campeonato.entity';
+import { Campeonato } from './entities/campeonato.entity';
 import { Repository } from 'typeorm';
 import { Cron } from '@nestjs/schedule';
 
@@ -14,6 +14,7 @@ export class CampeonatoService {
   ) { }
 
   async create(campeonatoDto: CampeonatoDto): Promise<CampeonatoDto> {
+//  FIXME: NÃO ESTÁ SALVANDO OS PARTICIPANTES;
     if (!campeonatoDto.dataInicio) {
       throw new UnprocessableEntityException('A data de início é obrigatória');
     }
@@ -71,6 +72,9 @@ export class CampeonatoService {
     campeonato.dataFim = campeonatoDto.dataFim
     campeonato.emAndamento = campeonatoDto.emAndamento
 
+    // FIXME: MAPEAR ISSO AQUI PRA ATUALIZAR OS PARTICIPANTES
+    // campeonato.participantes = campeonatoDto.participantes
+
     return this.campeonatoRepository.save(campeonato);
   }
 
@@ -81,8 +85,6 @@ export class CampeonatoService {
 
   @Cron('* * 0 * * *')
   async encerrarCampeonatosAutomaticamente() {
-    console.log("OOOOOOOOOOOOOOOOOOOOOOOOOOOPA BIAAAO");
-
     const dataCorrente = new Date();
 
     let campeonatos = await this.campeonatoRepository

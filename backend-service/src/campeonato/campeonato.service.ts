@@ -1,25 +1,79 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { CampeonatoDto } from './dto/campeonato.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Campeonato } from './db/campeonato.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class CampeonatoService {
-  create(CampeonatoDto: CampeonatoDto) {
-    return 'This action adds a new campeonato';
+
+  constructor(
+    @InjectRepository(Campeonato)
+    private campeonatoRepository: Repository<Campeonato>,
+  ) { }
+
+  async create(campeonatoDto: CampeonatoDto): Promise<CampeonatoDto> {
+    if (!campeonatoDto.dataInicio) {
+      throw new UnprocessableEntityException('A data de início é obrigatória');
+    }
+
+    if (!campeonatoDto.dataFim) {
+      throw new UnprocessableEntityException('A data de encerramento é obrigatória');
+    }
+
+    if (campeonatoDto.dataInicio > campeonatoDto.dataFim) {
+      throw new UnprocessableEntityException('A data de início não pode ser posterior a data de encerramento');
+    }
+
+    if (campeonatoDto.emAndamento === null || campeonatoDto.emAndamento === undefined) {
+      throw new UnprocessableEntityException('Obrigatório informar se o campeonato está em andamento');
+    }
+
+    return this.campeonatoRepository.save(campeonatoDto);
   }
 
-  findAll() {
-    return `This action returns all campeonato`;
+  async findAll(): Promise<CampeonatoDto[]> {
+    return this.campeonatoRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} campeonato`;
+  async findOne(id: number): Promise<CampeonatoDto> {
+    let campeonato: Campeonato = await this.campeonatoRepository.findOneBy({ id: id });
+
+    if (!campeonato) {
+      throw new UnprocessableEntityException('Campeonato não cadastrado');
+    }
+
+    return campeonato;
   }
 
-  update(id: number, campeonatoDto: CampeonatoDto) {
-    return `This action updates a #${id} campeonato`;
+  async update(id: number, campeonatoDto: CampeonatoDto): Promise<CampeonatoDto> {
+
+    if (!campeonatoDto.dataInicio) {
+      throw new UnprocessableEntityException('A data de início é obrigatória');
+    }
+
+    if (!campeonatoDto.dataFim) {
+      throw new UnprocessableEntityException('A data de encerramento é obrigatória');
+    }
+
+    if (campeonatoDto.dataInicio > campeonatoDto.dataFim) {
+      throw new UnprocessableEntityException('A data de início não pode ser posterior a data de encerramento');
+    }
+
+    let campeonato: Campeonato = await this.campeonatoRepository.findOneBy({ id: id });
+
+    if (!campeonato) {
+      throw new UnprocessableEntityException('Campeonato não cadastrado');
+    }
+
+    campeonato.dataInicio = campeonatoDto.dataInicio
+    campeonato.dataFim = campeonatoDto.dataFim
+    campeonato.emAndamento = campeonatoDto.emAndamento
+
+    return this.campeonatoRepository.save(campeonato);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} campeonato`;
+  async remove(id: number) {
+    return this.campeonatoRepository.delete({ id: id });
   }
 }

@@ -3,6 +3,7 @@ import { CampeonatoDto } from './dto/campeonato.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Campeonato } from './db/campeonato.entity';
 import { Repository } from 'typeorm';
+import { Cron } from '@nestjs/schedule';
 
 @Injectable()
 export class CampeonatoService {
@@ -75,5 +76,22 @@ export class CampeonatoService {
 
   async remove(id: number) {
     return this.campeonatoRepository.delete({ id: id });
+  }
+
+
+  @Cron('* * 0 * * *')
+  async encerrarCampeonatosAutomaticamente() {
+    console.log("OOOOOOOOOOOOOOOOOOOOOOOOOOOPA BIAAAO");
+
+    const dataCorrente = new Date();
+
+    let campeonatos = await this.campeonatoRepository
+      .createQueryBuilder('campeonato')
+      .where('campeonato.dataFim <= :dataCorrente', { dataCorrente })
+      .getMany();
+
+    campeonatos.map(campeonato => campeonato.emAndamento = false);
+
+    return this.campeonatoRepository.save(campeonatos);
   }
 }

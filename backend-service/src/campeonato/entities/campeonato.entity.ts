@@ -19,6 +19,6 @@ export class Campeonato {
     @Column()
     emAndamento: boolean;
 
-    @OneToMany(() => Participante, (participantes) => participantes.campeonato)
+    @OneToMany(() => Participante, participantes => participantes.campeonato)
     participantes: Participante[];
 }

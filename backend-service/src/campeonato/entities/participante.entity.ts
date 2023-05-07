@@ -8,7 +8,7 @@ export class Participante {
     id: number;
 
     @Column({ type: 'int' })
-    classificacao: number;
+    posicaoclassificacao: number;
 
     @Column({ type: 'varchar', length: 200 })
     nome: String;
@@ -16,6 +16,6 @@ export class Participante {
     @Column({ type: 'int' })
     pontuacao: number;
 
-    @ManyToOne(() => Campeonato, (campeonato) => campeonato.participantes)
+    @ManyToOne(() => Campeonato, campeonato => campeonato.participantes)
     campeonato: Campeonato
 }

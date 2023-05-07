@@ -4,6 +4,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Campeonato } from './entities/campeonato.entity';
 import { Repository } from 'typeorm';
 import { Cron } from '@nestjs/schedule';
+import { ParticipanteDto } from './dto/participante.dto';
+import { Participante } from './entities/participante.entity';
 
 @Injectable()
 export class CampeonatoService {
@@ -11,6 +13,8 @@ export class CampeonatoService {
   constructor(
     @InjectRepository(Campeonato)
     private campeonatoRepository: Repository<Campeonato>,
+    @InjectRepository(Participante)
+    private participanteRepository: Repository<Participante>,
   ) { }
 
   async create(campeonatoDto: CampeonatoDto): Promise<CampeonatoDto> {
@@ -31,7 +35,32 @@ export class CampeonatoService {
       throw new UnprocessableEntityException('Obrigatório informar se o campeonato está em andamento');
     }
 
-    return this.campeonatoRepository.save(campeonatoDto);
+    if(campeonatoDto.participantes.length === 0) {
+      throw new UnprocessableEntityException('Obrigatório informar os participantes(nome do time, pontos atuais e sua respectiva posição)')
+    }
+
+    const campeonato = new Campeonato();
+    campeonato.nomeCampeonato = campeonatoDto.nomeCampeonato;
+    campeonato.dataInicio = campeonatoDto.dataInicio;
+    campeonato.dataFim = campeonatoDto.dataFim;
+    campeonato.emAndamento = campeonatoDto.emAndamento;
+
+    const participantes = [];
+
+    for (const participanteDto of campeonatoDto.participantes) {
+      const participante = new Participante();
+      participante.nome = participanteDto.nome;
+      participante.pontuacao = participanteDto.pontuacao;
+      participante.posicaoclassificacao = participanteDto.posicaoclassificacao;
+      participante.campeonato = campeonato;
+
+      const savedParticipante = await this.participanteRepository.save(participante);
+      participantes.push(savedParticipante);
+    }
+
+    campeonato.participantes = participantes;
+
+    return this.campeonatoRepository.save(campeonato);
   }
 
   async findAll(): Promise<CampeonatoDto[]> {

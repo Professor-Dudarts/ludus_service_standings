@@ -1,11 +1,11 @@
+import { ParticipanteService } from './../participante/participante.service';
 import { Injectable, UnprocessableEntityException } from '@nestjs/common';
-import { CampeonatoDto } from './dto/campeonato.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Campeonato } from './entities/campeonato.entity';
 import { Repository } from 'typeorm';
 import { Cron } from '@nestjs/schedule';
-import { ParticipanteDto } from './dto/participante.dto';
-import { Participante } from './entities/participante.entity';
+import { Participante } from '../participante/entities/participante.entity';
+import { CampeonatoDto } from './dto/campeonato.dto';
 
 @Injectable()
 export class CampeonatoService {
@@ -13,12 +13,16 @@ export class CampeonatoService {
   constructor(
     @InjectRepository(Campeonato)
     private campeonatoRepository: Repository<Campeonato>,
-    @InjectRepository(Participante)
-    private participanteRepository: Repository<Participante>,
+
+    private participanteService: ParticipanteService
   ) { }
 
-  async create(campeonatoDto: CampeonatoDto): Promise<CampeonatoDto> {
-//  FIXME: NÃO ESTÁ SALVANDO OS PARTICIPANTES;
+  async create(campeonatoDto: CampeonatoDto): Promise<Campeonato> {
+
+    if (!campeonatoDto.nomeCampeonato) {
+      throw new UnprocessableEntityException('Nome é obrigatório');
+    }
+
     if (!campeonatoDto.dataInicio) {
       throw new UnprocessableEntityException('A data de início é obrigatória');
     }
@@ -35,49 +39,44 @@ export class CampeonatoService {
       throw new UnprocessableEntityException('Obrigatório informar se o campeonato está em andamento');
     }
 
-    if(campeonatoDto.participantes.length === 0) {
+    if (campeonatoDto.participantes.length === 0) {
       throw new UnprocessableEntityException('Obrigatório informar os participantes(nome do time, pontos atuais e sua respectiva posição)')
     }
 
-    const campeonato = new Campeonato();
+    let campeonato = new Campeonato();
     campeonato.nomeCampeonato = campeonatoDto.nomeCampeonato;
     campeonato.dataInicio = campeonatoDto.dataInicio;
     campeonato.dataFim = campeonatoDto.dataFim;
     campeonato.emAndamento = campeonatoDto.emAndamento;
 
-    const participantes = [];
+    campeonato = await this.campeonatoRepository.save(campeonato);
 
-    for (const participanteDto of campeonatoDto.participantes) {
-      const participante = new Participante();
-      participante.nome = participanteDto.nome;
-      participante.pontuacao = participanteDto.pontuacao;
-      participante.posicaoclassificacao = participanteDto.posicaoclassificacao;
-      participante.campeonato = campeonato;
+    campeonato.participantes = await this.participanteService.salveAll(campeonatoDto.participantes, campeonato.id);
 
-      const savedParticipante = await this.participanteRepository.save(participante);
-      participantes.push(savedParticipante);
-    }
-
-    campeonato.participantes = participantes;
-
-    return this.campeonatoRepository.save(campeonato);
+    return campeonato;
   }
 
-  async findAll(): Promise<CampeonatoDto[]> {
+  async findAll(): Promise<Campeonato[]> {
     return this.campeonatoRepository.find();
   }
 
-  async findOne(id: number): Promise<CampeonatoDto> {
+  async findOne(id: number): Promise<Campeonato> {
     let campeonato: Campeonato = await this.campeonatoRepository.findOneBy({ id: id });
 
     if (!campeonato) {
       throw new UnprocessableEntityException('Campeonato não cadastrado');
     }
 
+    campeonato.participantes = await this.participanteService.findByCampeonatoId(campeonato.id);
+
     return campeonato;
   }
 
-  async update(id: number, campeonatoDto: CampeonatoDto): Promise<CampeonatoDto> {
+  async update(id: number, campeonatoDto: CampeonatoDto): Promise<Campeonato> {
+
+    if (!campeonatoDto.nomeCampeonato) {
+      throw new UnprocessableEntityException('Nome é obrigatório');
+    }
 
     if (!campeonatoDto.dataInicio) {
       throw new UnprocessableEntityException('A data de início é obrigatória');
@@ -97,18 +96,26 @@ export class CampeonatoService {
       throw new UnprocessableEntityException('Campeonato não cadastrado');
     }
 
+    campeonato.nomeCampeonato = campeonatoDto.nomeCampeonato;
     campeonato.dataInicio = campeonatoDto.dataInicio
     campeonato.dataFim = campeonatoDto.dataFim
     campeonato.emAndamento = campeonatoDto.emAndamento
+    campeonato = await this.campeonatoRepository.save(campeonato);
 
-    // FIXME: MAPEAR ISSO AQUI PRA ATUALIZAR OS PARTICIPANTES
-    // campeonato.participantes = campeonatoDto.participantes
+    campeonato.participantes = await this.participanteService.salveAll(campeonatoDto.participantes, campeonato.id);
 
-    return this.campeonatoRepository.save(campeonato);
+    return campeonato;
   }
 
   async remove(id: number) {
-    return this.campeonatoRepository.delete({ id: id });
+    let campeonato: Campeonato = await this.campeonatoRepository.findOneBy({ id: id });
+
+    if (!campeonato) {
+      throw new UnprocessableEntityException('Campeonato não cadastrado');
+    }
+
+    this.participanteService.deleteByCampeonatoId(campeonato.id);
+    return this.campeonatoRepository.delete({ id: campeonato.id });
   }
 
 

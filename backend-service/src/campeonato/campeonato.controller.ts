@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Put, Param, Delete } from '@nestjs/common';
 import { CampeonatoService } from './campeonato.service';
-import { CampeonatoDto } from './dto/campeonato.dto';
 import { Campeonato } from './entities/campeonato.entity';
+import { CampeonatoDto } from './dto/campeonato.dto';
 
 @Controller('campeonatos')
 export class CampeonatoController {
@@ -13,7 +13,7 @@ export class CampeonatoController {
   }
 
   @Get()
-  async findAll(): Promise<CampeonatoDto[]> {
+  async findAll(): Promise<Campeonato[]> {
     return this.campeonatoService.findAll();
   }
 
@@ -23,7 +23,7 @@ export class CampeonatoController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() CampeonatoDto: Campeonato) {
+  update(@Param('id') id: string, @Body() CampeonatoDto: CampeonatoDto) {
     return this.campeonatoService.update(+id, CampeonatoDto);
   }
 

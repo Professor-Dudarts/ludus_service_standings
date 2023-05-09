@@ -1,5 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn, Unique } from "typeorm";
-import { Participante } from "./participante.entity";
+import { Participante } from "../../participante/entities/participante.entity";
 
 @Entity()
 @Unique(['id'])
@@ -19,6 +19,5 @@ export class Campeonato {
     @Column()
     emAndamento: boolean;
 
-    @OneToMany(() => Participante, participantes => participantes.campeonato)
     participantes: Participante[];
 }

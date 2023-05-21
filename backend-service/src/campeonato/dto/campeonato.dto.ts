@@ -1,9 +1,10 @@
-import { ParticipanteDto } from "./participante.dto";
+import { Participante } from "src/participante/entities/participante.entity";
 
 export class CampeonatoDto {
-    nomeCampeonato: String;
-    dataInicio: String;
-    dataFim: String;
-    emAndamento: Boolean;
-    participantes: ParticipanteDto[];
+    readonly id: number;
+    nomeCampeonato: string;
+    dataInicio: Date;
+    dataFim: Date;
+    emAndamento: boolean;
+    participantes: Participante[];
 }

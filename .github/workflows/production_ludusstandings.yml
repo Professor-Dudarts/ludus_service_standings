@@ -27,7 +27,7 @@ jobs:
         password: ${{ secrets.AzureAppService_ContainerPassword_c6db8fdbe7d04ef38209f70b5f43b2f2 }}
 
     - name: Build and push container image to registry
-      uses: docker/build-push-action@v3
+      uses: docker/build-push-action@v4
       with:
         push: true
         tags: ludusapicontainer.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_db71a8f52650434abcf89d06d549d5db }}/ludus_service_standings:${{ github.sha }}

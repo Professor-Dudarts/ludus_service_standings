@@ -14,7 +14,7 @@ export class ParticipanteService {
     async salveAll(participantes: Participante[], campeonatoId: number): Promise<Participante[]> {
         this.participanteRepository.delete({ campeonatoId: campeonatoId });
 
-        participantes.forEach(participante => {
+        /*participantes.forEach(participante => {
             if (!participante.nome) {
                 throw new UnprocessableEntityException('Nome do participante é obrigatório');
             }
@@ -28,7 +28,7 @@ export class ParticipanteService {
             }
 
             participante.campeonatoId = campeonatoId;
-        })
+        })*/
 
         return this.participanteRepository.save(participantes);
     }

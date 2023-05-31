@@ -18,3 +18,14 @@ export class Participante {
     @Column({ type: 'int' })
     campeonatoId: number
 }
+/*
+    idCampeonato: number;
+    idParticipante: number;
+    pontos: number;
+    partidasJogadas: number;
+    vitorias: number;
+    empates: number;
+    derrotas: number;
+    golsMarcados: number;
+    golsContra: number;
+    saldoGols: number;

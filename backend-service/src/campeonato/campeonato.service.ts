@@ -4,7 +4,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Campeonato } from './entities/campeonato.entity';
 import { Repository } from 'typeorm';
 import { Cron } from '@nestjs/schedule';
-import { Participante } from '../participante/entities/participante.entity';
 import { CampeonatoDto } from './dto/campeonato.dto';
 
 @Injectable()

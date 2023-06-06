@@ -7,6 +7,7 @@ import { CampeonatoDto } from './dto/campeonato.dto';
 export class CampeonatoController {
   constructor(private readonly campeonatoService: CampeonatoService) { }
 
+  /*
   @Post()
   create(@Body() campeonatoDto: CampeonatoDto) {
     return this.campeonatoService.create(campeonatoDto);
@@ -31,4 +32,5 @@ export class CampeonatoController {
   remove(@Param('id') id: string) {
     return this.campeonatoService.remove(+id);
   }
+  */
 }

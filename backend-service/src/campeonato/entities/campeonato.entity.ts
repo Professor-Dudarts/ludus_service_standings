@@ -16,7 +16,7 @@ export class Campeonato {
     @Column({ type: 'timestamptz' }) 
     dataFim: Date;
 
-    @Column()
+    @Column({ type: 'boolean' })
     emAndamento: boolean;
     
     participantes: Participante[];

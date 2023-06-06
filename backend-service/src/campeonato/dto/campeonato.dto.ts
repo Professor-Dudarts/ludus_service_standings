@@ -6,5 +6,5 @@ export class CampeonatoDto {
     dataInicio: Date;
     dataFim: Date;
     emAndamento: boolean;
-    participantes: Participante[]
+    participantes: Participante[];
 }
